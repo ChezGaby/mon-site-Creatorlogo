@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -56,10 +55,10 @@ overflow: hidden;
 z-index: 1000;
 }
 
-#gallery img {
-max-width: 90%;
-max-height: 80%;
-margin: 40px auto;
+#gallery img.main-img {
+max-width: 80%;
+max-height: 70%;
+margin: 20px auto;
 display: none;
 transition: opacity 0.5s ease;
 }
@@ -69,16 +68,38 @@ display: block;
 opacity: 1;
 }
 
+#gallery .thumbnails {
+display: flex;
+justify-content: center;
+margin-top: 15px;
+gap: 10px;
+}
+
+#gallery .thumbnails img {
+width: 80px;
+height: 80px;
+object-fit: cover;
+cursor: pointer;
+opacity: 0.7;
+border: 2px solid transparent;
+transition: transform 0.3s, opacity 0.3s, border 0.3s;
+}
+
+#gallery .thumbnails img:hover,
+#gallery .thumbnails img.active-thumb {
+transform: scale(1.1);
+opacity: 1;
+border: 2px solid red;
+}
+
 #gallery button, #gallery span {
 margin: 10px;
 padding: 10px 20px;
 font-size: 18px;
 cursor: pointer;
-}
-
-#gallery button:hover {
-background: #ffcccc;
-transform: scale(1.05);
+background: #fff;
+border: none;
+border-radius: 5px;
 }
 
 #gallery span {
@@ -110,13 +131,25 @@ margin-top: 20px;
 <div id="gallery">
 <h2>Galerie</h2>
 
-<img src="10.png" alt="10.png" class="gallery-img" loading="lazy">
-<img src="photo2.png" alt="Photo 2" class="gallery-img" loading="lazy">
-<img src="photo3.png" alt="Photo 3" class="gallery-img" loading="lazy">
-<img src="photo4.png" alt="Photo 4" class="gallery-img" loading="lazy">
-<img src="photo5.png" alt="Photo 5" class="gallery-img" loading="lazy">
-<img src="photo6.png" alt="Photo 6" class="gallery-img" loading="lazy">
+<!-- Images principales -->
+<img src="10.png" alt="10.png" class="main-img" loading="lazy">
+<img src="photo2.png" alt="Photo 2" class="main-img" loading="lazy">
+<img src="photo3.png" alt="Photo 3" class="main-img" loading="lazy">
+<img src="photo4.png" alt="Photo 4" class="main-img" loading="lazy">
+<img src="photo5.png" alt="Photo 5" class="main-img" loading="lazy">
+<img src="photo6.png" alt="Photo 6" class="main-img" loading="lazy">
 
+<!-- Miniatures -->
+<div class="thumbnails">
+<img src="10.png" onclick="showImage(0)" loading="lazy">
+<img src="photo2.png" onclick="showImage(1)" loading="lazy">
+<img src="photo3.png" onclick="showImage(2)" loading="lazy">
+<img src="photo4.png" onclick="showImage(3)" loading="lazy">
+<img src="photo5.png" onclick="showImage(4)" loading="lazy">
+<img src="photo6.png" onclick="showImage(5)" loading="lazy">
+</div>
+
+<!-- Contrôles -->
 <div>
 <button onclick="prevImage()">⬅ Précédent</button>
 <button onclick="nextImage()">Suivant ➡</button>
@@ -126,30 +159,66 @@ margin-top: 20px;
 
 <script>
 let currentIndex = 0;
-const images = document.querySelectorAll("#gallery .gallery-img");
+const mainImages = document.querySelectorAll("#gallery .main-img");
+const thumbs = document.querySelectorAll("#gallery .thumbnails img");
+let sliderInterval;
 
+// Ouvrir galerie
 function openGallery(index) {
 currentIndex = index;
-images.forEach(img => img.classList.remove("active"));
-images[currentIndex].classList.add("active");
+updateGallery();
 document.getElementById("gallery").style.display = "block";
+startSlider();
 }
 
+// Fermer galerie
 function closeGallery() {
 document.getElementById("gallery").style.display = "none";
+stopSlider();
+}
+
+// Afficher image sélectionnée
+function showImage(index) {
+currentIndex = index;
+updateGallery();
+resetSlider();
+}
+
+// Mise à jour affichage images et miniatures
+function updateGallery() {
+mainImages.forEach((img, i) => {
+img.classList.toggle("active", i === currentIndex);
+thumbs[i].classList.toggle("active-thumb", i === currentIndex);
+});
 }
 
 // Navigation
 function prevImage() {
-images[currentIndex].classList.remove("active");
-currentIndex = (currentIndex - 1 + images.length) % images.length;
-images[currentIndex].classList.add("active");
+currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
+updateGallery();
+resetSlider();
 }
 
 function nextImage() {
-images[currentIndex].classList.remove("active");
-currentIndex = (currentIndex + 1) % images.length;
-images[currentIndex].classList.add("active");
+currentIndex = (currentIndex + 1) % mainImages.length;
+updateGallery();
+resetSlider();
+}
+
+// Slider automatique
+function startSlider() {
+sliderInterval = setInterval(() => {
+nextImage();
+}, 3000);
+}
+
+function stopSlider() {
+clearInterval(sliderInterval);
+}
+
+function resetSlider() {
+stopSlider();
+startSlider();
 }
 
 // Likes et panier
@@ -170,20 +239,3 @@ console.log(cart);
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-                                                        
-
-
-
-
-
-                                                  
