@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,36 +26,18 @@ background: #f9f9f9;
 }
 
 /* Catalogue avec hover */
-#catalogue-slider {
+.catalogue {
 max-width: 100%;
 height: auto;
 display: block;
 margin: 20px auto;
 cursor: pointer;
 position: relative;
-overflow: hidden;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-#catalogue-slider img {
-width: 100%;
-height: auto;
-position: absolute;
-top: 0;
-left: 0;
-opacity: 0;
-transition: opacity 1s ease-in-out;
-}
-#catalogue-slider img.active-slide {
-opacity: 1;
-}
-
-/* Logos */
-.logo {
-max-width:100%;
-height:auto;
-display:block;
-margin:0 auto 20px auto;
-position: relative;
-z-index: 1;
+.catalogue:hover {
+transform: scale(1.05);
+box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
 /* Galerie lightbox */
@@ -138,17 +119,17 @@ margin-top: 20px;
 <p class="clignote">Cliquez ici 👇 </p>
 
 <!-- Catalogue avec slider automatique -->
-<div id="catalogue-slider" onclick="openGallery(0)">
-<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
-<img src="CHEZ.png" loading="lazy">
-<img src="CHEZGABBIJOUX.png" loading="lazy">
-<img src="CHEZGABYBI.png" loading="lazy">
+<div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
+<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy" style="width:100%;">
+<img src="CHEZ.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABBIJOUX.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABYBI.png" loading="lazy" style="width:100%; display:none;">
 </div>
 
 <!-- Logos -->
-<img src="CHEZ.png" alt="logo CHEZ" class="logo" loading="lazy">
-<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" class="logo" loading="lazy">
-<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" class="logo" loading="lazy">
+<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
 
 <p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
 
@@ -183,22 +164,21 @@ margin-top: 20px;
 </div>
 
 <script>
-// ----------------- Slider Catalogue avec fade -----------------
+// Slider catalogue automatique
 let catalogueIndex = 0;
-const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
+const catalogueImages = document.querySelectorAll("#catalogue-slider img");
 
 function showNextCatalogueSlide() {
-catalogueSlides.forEach((img, i) => {
-img.classList.remove("active-slide");
+catalogueImages.forEach((img, i) => {
+img.style.display = (i === catalogueIndex) ? "block" : "none";
 });
-catalogueSlides[catalogueIndex].classList.add("active-slide");
-catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
+catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
 }
 
-// Lancer le slider automatique toutes les 3 secondes
+// Lancer le slider toutes les 3 secondes
 setInterval(showNextCatalogueSlide, 3000);
 
-// ----------------- Galerie Lightbox -----------------
+// Galerie lightbox
 let currentIndex = 0;
 const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
@@ -280,8 +260,3 @@ console.log(cart);
 
 </body>
 </html>
-
-
-
-
-
