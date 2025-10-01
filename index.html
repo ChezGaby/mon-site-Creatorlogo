@@ -7,10 +7,34 @@
 </head>
 <body style="texte-align:center; fond-family: arial, sans-serif; background:#f9f9f9;">
   <h1>Bienvenue sur mon site !</h1>
+    
   <img src="CHEZGABYBIJOUx.png" alt="Catalogue" onclick="openGallery()" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
+    
   <img src="CHEZ.png" alt="logo CHEZ" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
   <img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
   <img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
+  <div id="gallery" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); text-align:center;">
+
+    <img src="bijou1.png" alt="Bijou 1" style="max-width:80%; margin-top:50px;">
+
+    <img src="bijou2.png" alt="Bijou 2" style="max-width:80%; margin-top:20px;">
+
+    <span onclick="closeGallery()" style="color:white; font-size:24px; cursor:pointer; display:block; margin-top:20px;">Fermer ✖</span>
+
+  </div>
+
+
+  <script>
+
+    function openGallery() {
+
+      document.getElementById("gallery").style.display = "block";
+
+    }
+
+    function closeGallery() {
+
+      document.getElementById("gallery").style.display = "none";
   <p>ceci est mon premier site web
 </body>
 </html>                                      
