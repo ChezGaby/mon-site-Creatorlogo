@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -38,6 +39,22 @@ transition: transform 0.3s ease, box-shadow 0.3s ease;
 .catalogue:hover {
 transform: scale(1.05);
 box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Effet de fondu pour le slider du catalogue */
+#catalogue-slider img {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: auto;
+opacity: 0;
+transition: opacity 1s ease-in-out;
+}
+
+#catalogue-slider img.active-slide {
+opacity: 1;
+z-index: 1;
 }
 
 /* Galerie lightbox */
@@ -118,12 +135,12 @@ margin-top: 20px;
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
 <p class="clignote">Cliquez ici 👇 </p>
 
-<!-- Catalogue avec slider automatique -->
+<!-- Catalogue avec slider automatique et fondu -->
 <div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
-<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy" style="width:100%;">
-<img src="CHEZ.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABBIJOUX.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABYBI.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
+<img src="CHEZ.png" loading="lazy">
+<img src="CHEZGABBIJOUX.png" loading="lazy">
+<img src="CHEZGABYBI.png" loading="lazy">
 </div>
 
 <!-- Logos -->
@@ -164,15 +181,21 @@ margin-top: 20px;
 </div>
 
 <script>
-// Slider catalogue automatique
+// Slider catalogue automatique avec fondu
 let catalogueIndex = 0;
-const catalogueImages = document.querySelectorAll("#catalogue-slider img");
+const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
+
+// Affiche la première image au départ
+catalogueSlides.forEach((img, i) => img.classList.remove("active-slide"));
+catalogueSlides[catalogueIndex].classList.add("active-slide");
 
 function showNextCatalogueSlide() {
-catalogueImages.forEach((img, i) => {
-img.style.display = (i === catalogueIndex) ? "block" : "none";
-});
-catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
+// Supprime active-slide de toutes les images
+catalogueSlides.forEach((img) => img.classList.remove("active-slide"));
+// Ajoute active-slide à l'image courante
+catalogueSlides[catalogueIndex].classList.add("active-slide");
+// Passe à la suivante
+catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
 }
 
 // Lancer le slider toutes les 3 secondes
