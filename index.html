@@ -26,8 +26,8 @@ font-family: Arial, sans-serif;
 background: #f9f9f9;
 }
 
-/* Catalogue avec hover et transition */
-.catalogue {
+/* Catalogue avec hover */
+#catalogue-slider {
 max-width: 100%;
 height: auto;
 display: block;
@@ -36,19 +36,27 @@ cursor: pointer;
 position: relative;
 overflow: hidden;
 }
-.catalogue img {
+#catalogue-slider img {
 width: 100%;
+height: auto;
 position: absolute;
 top: 0;
 left: 0;
 opacity: 0;
 transition: opacity 1s ease-in-out;
 }
-.catalogue img.active-slide {
+#catalogue-slider img.active-slide {
 opacity: 1;
 }
-.catalogue:hover img {
-transform: scale(1.05);
+
+/* Logos */
+.logo {
+max-width:100%;
+height:auto;
+display:block;
+margin:0 auto 20px auto;
+position: relative;
+z-index: 1;
 }
 
 /* Galerie lightbox */
@@ -130,7 +138,7 @@ margin-top: 20px;
 <p class="clignote">Cliquez ici 👇 </p>
 
 <!-- Catalogue avec slider automatique -->
-<div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
+<div id="catalogue-slider" onclick="openGallery(0)">
 <img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
 <img src="CHEZ.png" loading="lazy">
 <img src="CHEZGABBIJOUX.png" loading="lazy">
@@ -138,9 +146,9 @@ margin-top: 20px;
 </div>
 
 <!-- Logos -->
-<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZ.png" alt="logo CHEZ" class="logo" loading="lazy">
+<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" class="logo" loading="lazy">
+<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" class="logo" loading="lazy">
 
 <p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
 
@@ -175,29 +183,22 @@ margin-top: 20px;
 </div>
 
 <script>
-// ===== Slider automatique pour catalogue avec transition =====
+// ----------------- Slider Catalogue avec fade -----------------
 let catalogueIndex = 0;
-const catalogueImages = document.querySelectorAll("#catalogue-slider img");
-
-// Afficher le premier slide dès le départ
-catalogueImages.forEach((img, i) => {
-img.style.opacity = (i === 0) ? "1" : "0";
-});
+const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
 
 function showNextCatalogueSlide() {
-catalogueImages.forEach((img, i) => {
+catalogueSlides.forEach((img, i) => {
 img.classList.remove("active-slide");
-if(i === catalogueIndex){
-img.classList.add("active-slide");
-}
 });
-catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
+catalogueSlides[catalogueIndex].classList.add("active-slide");
+catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
 }
 
-// Lancer le slider toutes les 3 secondes
+// Lancer le slider automatique toutes les 3 secondes
 setInterval(showNextCatalogueSlide, 3000);
 
-// ===== Galerie lightbox =====
+// ----------------- Galerie Lightbox -----------------
 let currentIndex = 0;
 const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
@@ -279,6 +280,7 @@ console.log(cart);
 
 </body>
 </html>
+
 
 
 
