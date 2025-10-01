@@ -61,9 +61,21 @@ margin-top: 50px;
 <body>
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
 
-<p style="color: red; text-align: left; margin-left: 20px;">
-Cliquez ici 👇
-</p>
+<p class="clignote">Cliquez ici 👇</p>
+
+<style>
+.clignote {
+color: red; /* texte rouge */
+font-weight: bold; /* gras pour plus de visibilité */
+animation: clignoter 1s infinite; /* clignote toutes les 1 seconde */
+}
+
+@keyframes clignoter {
+0% { opacity: 1; }
+50% { opacity: 0; }
+100% { opacity: 1; }
+}
+</style>
 
 
 <img src="CHEZGABYBIJOUx.png" alt="Catalogue" class="catalogue" onclick="openGallery()">
