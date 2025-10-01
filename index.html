@@ -26,14 +26,32 @@ font-family: Arial, sans-serif;
 background: #f9f9f9;
 }
 
-/* Catalogue avec hover */
-.catalogue {
+/* Slider automatique catalogue */
+#catalogue-slider {
 max-width: 100%;
-height: auto;
-display: block;
 margin: 20px auto;
-cursor: pointer;
 position: relative;
+height: auto;
+cursor: pointer;
+overflow: hidden;
+}
+.catalogue-slide {
+width: 100%;
+display: none;
+position: absolute;
+top: 0;
+left: 0;
+transition: opacity 1s ease-in-out;
+opacity: 0;
+}
+.catalogue-slide.active-slide {
+opacity: 1;
+display: block;
+position: relative;
+}
+
+/* Images catalogue hover */
+.catalogue {
 transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .catalogue:hover {
@@ -119,18 +137,13 @@ margin-top: 20px;
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
 <p class="clignote">Cliquez ici 👇 </p>
 
-<!-- Catalogue avec slider automatique -->
-<div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
-<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy" style="width:100%;">
-<img src="CHEZ.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABBIJOUX.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABYBI.png" loading="lazy" style="width:100%; display:none;">
+<!-- Slider automatique sur l'image catalogue -->
+<div id="catalogue-slider">
+<img src="CHEZGABYBIJOUx.png" class="catalogue-slide" onclick="openGallery(0)" loading="lazy">
+<img src="CHEZ.png" class="catalogue-slide" onclick="openGallery(0)" loading="lazy">
+<img src="CHEZGABBIJOUX.png" class="catalogue-slide" onclick="openGallery(0)" loading="lazy">
+<img src="CHEZGABYBI.png" class="catalogue-slide" onclick="openGallery(0)" loading="lazy">
 </div>
-
-<!-- Logos -->
-<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
 
 <p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
 
@@ -165,19 +178,24 @@ margin-top: 20px;
 </div>
 
 <script>
-// Slider catalogue automatique
+// Slider automatique catalogue
+let catalogueSlides = document.querySelectorAll("#catalogue-slider .catalogue-slide");
 let catalogueIndex = 0;
-const catalogueImages = document.querySelectorAll("#catalogue-slider img");
 
-function showNextCatalogueSlide() {
-catalogueImages.forEach((img, i) => {
-img.style.display = (i === catalogueIndex) ? "block" : "none";
+function showCatalogueSlide(index) {
+catalogueSlides.forEach((img, i) => {
+img.classList.toggle("active-slide", i === index);
 });
-catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
 }
 
-// Lancer le slider toutes les 3 secondes
-setInterval(showNextCatalogueSlide, 3000);
+function nextCatalogueSlide() {
+catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
+showCatalogueSlide(catalogueIndex);
+}
+
+// Démarrer le slider
+showCatalogueSlide(catalogueIndex);
+setInterval(nextCatalogueSlide, 3000); // change toutes les 3 secondes
 
 // Galerie lightbox
 let currentIndex = 0;
@@ -185,7 +203,6 @@ const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
 let sliderInterval;
 
-// Ouvrir galerie
 function openGallery(index) {
 currentIndex = index;
 updateGallery();
@@ -193,20 +210,17 @@ document.getElementById("gallery").style.display = "block";
 startSlider();
 }
 
-// Fermer galerie
 function closeGallery() {
 document.getElementById("gallery").style.display = "none";
 stopSlider();
 }
 
-// Afficher image sélectionnée
 function showImage(index) {
 currentIndex = index;
 updateGallery();
 resetSlider();
 }
 
-// Mise à jour affichage images et miniatures
 function updateGallery() {
 mainImages.forEach((img, i) => {
 img.classList.toggle("active", i === currentIndex);
@@ -214,7 +228,6 @@ thumbs[i].classList.toggle("active-thumb", i === currentIndex);
 });
 }
 
-// Navigation
 function prevImage() {
 currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
 updateGallery();
@@ -227,7 +240,6 @@ updateGallery();
 resetSlider();
 }
 
-// Slider automatique galerie
 function startSlider() {
 sliderInterval = setInterval(() => {
 nextImage();
@@ -261,6 +273,7 @@ console.log(cart);
 
 </body>
 </html>
+
 
 
 
