@@ -1,37 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>mon premier site</title>
+<meta charset="UTF-8">
+<title>mon premier site</title>
+<style>
+body {
+text-align: center;
+font-family: Arial, sans-serif;
+background: #f9f9f9;
+}
+
+.catalogue {
+max-width: 100%;
+height: auto;
+display: block;
+margin: 20px auto;
+cursor: pointer;
+}
+
+#gallery {
+display: none; /* cachée au départ */
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.8);
+text-align: center;
+overflow-y: auto;
+}
+
+#gallery img {
+max-width: 90%;
+max-height: 90%;
+margin: 20px auto;
+display: block;
+}
+
+#gallery button {
+margin: 5px;
+padding: 10px 15px;
+font-size: 16px;
+cursor: pointer;
+}
+
+#gallery span {
+color: white;
+font-size: 24px;
+cursor: pointer;
+display: block;
+margin-top: 20px;
+}
+
+#gallery h2 {
+color: white;
+margin-top: 50px;
+}
+</style>
 </head>
-<body style="text-align:center; font-family: arial, sans-serif; background:#f9f9f9;">
-  <h1>Bienvenue sur mon site !</h1>
-    
-  <img src="CHEZGABYBIJOUx.png" alt="Catalogue" onclick="openGallery()" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto; cursor:pointer;">
-  
-  <img src="CHEZ.png" alt="logo CHEZ" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
-  <img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
-  <img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto;">
-  
-  <p>ceci est mon premier site web</p> 
+<body>
 
-  <div id="gallery" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); text-align:center;">
-    <h2 style="color:white; margin-top:50px;">Galerie vide pour l'instant</h2>
-    <span onclick="closeGallery()" style="color:white; font-size:24px; cursor:pointer; display:block; margin-top:20px;">Fermer ✖</span>
-  </div>
+<h1>Bienvenue sur mon site !</h1>
 
-  <script>
+<!-- Image catalogue cliquable -->
+<img src="CHEZGABYBIJOUx.png" alt="Catalogue" class="catalogue" onclick="openGallery()">
 
-    function openGallery(){
-        document.getElementById("gallery").style.display = "block";}
-    
-    function closeGallery(){
-        document.getElementById("gallery").style.display = "none";}
+<!-- Autres images -->
+<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
+<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
+<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
 
-  </script>
+<p>ceci est mon premier site web</p>
+
+<!-- Galerie avec boutons J'aime et panier -->
+<div id="gallery">
+<h2>Galerie</h2>
+
+<!-- Image 1 -->
+<img src="photo1.png" alt="Photo 1">
+<button onclick="like('photo1')">❤️ J'aime</button> <span id="photo1-count">0</span>
+<button onclick="addToCart('photo1')">🛒 Ajouter au panier</button>
+
+<!-- Image 2 -->
+<img src="photo2.png" alt="Photo 2">
+<button onclick="like('photo2')">❤️ J'aime</button> <span id="photo2-count">0</span>
+<button onclick="addToCart('photo2')">🛒 Ajouter au panier</button>
+
+<!-- Image 3 -->
+<img src="photo3.png" alt="Photo 3">
+<button onclick="like('photo3')">❤️ J'aime</button> <span id="photo3-count">0</span>
+<button onclick="addToCart('photo3')">🛒 Ajouter au panier</button>
+
+<span onclick="closeGallery()">Fermer ✖</span>
+</div>
+
+<script>
+// Ouvrir / fermer la galerie
+function openGallery() {
+document.getElementById("gallery").style.display = "block";
+}
+function closeGallery() {
+document.getElementById("gallery").style.display = "none";
+}
+
+// J'aime
+let likes = {};
+function like(id) {
+if (!likes[id]) likes[id] = 0;
+likes[id]++;
+document.getElementById(id + '-count').innerText = likes[id];
+}
+
+// Panier
+let cart = [];
+function addToCart(item) {
+cart.push(item);
+alert(item + ' ajouté au panier !');
+console.log(cart); // voir le contenu du panier dans la console
+}
+</script>
+
 </body>
-</html>                                      
+</html>
+                
 
 
 
