@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,7 +26,7 @@ font-family: Arial, sans-serif;
 background: #f9f9f9;
 }
 
-/* Catalogue avec hover */
+/* Catalogue avec hover et transition */
 .catalogue {
 max-width: 100%;
 height: auto;
@@ -35,11 +34,21 @@ display: block;
 margin: 20px auto;
 cursor: pointer;
 position: relative;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
+overflow: hidden;
 }
-.catalogue:hover {
+.catalogue img {
+width: 100%;
+position: absolute;
+top: 0;
+left: 0;
+opacity: 0;
+transition: opacity 1s ease-in-out;
+}
+.catalogue img.active-slide {
+opacity: 1;
+}
+.catalogue:hover img {
 transform: scale(1.05);
-box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
 /* Galerie lightbox */
@@ -122,10 +131,10 @@ margin-top: 20px;
 
 <!-- Catalogue avec slider automatique -->
 <div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
-<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy" style="width:100%;">
-<img src="CHEZ.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABBIJOUX.png" loading="lazy" style="width:100%; display:none;">
-<img src="CHEZGABYBI.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
+<img src="CHEZ.png" loading="lazy">
+<img src="CHEZGABBIJOUX.png" loading="lazy">
+<img src="CHEZGABYBI.png" loading="lazy">
 </div>
 
 <!-- Logos -->
@@ -166,13 +175,21 @@ margin-top: 20px;
 </div>
 
 <script>
-// Slider catalogue automatique
+// ===== Slider automatique pour catalogue avec transition =====
 let catalogueIndex = 0;
 const catalogueImages = document.querySelectorAll("#catalogue-slider img");
 
+// Afficher le premier slide dès le départ
+catalogueImages.forEach((img, i) => {
+img.style.opacity = (i === 0) ? "1" : "0";
+});
+
 function showNextCatalogueSlide() {
 catalogueImages.forEach((img, i) => {
-img.style.display = (i === catalogueIndex) ? "block" : "none";
+img.classList.remove("active-slide");
+if(i === catalogueIndex){
+img.classList.add("active-slide");
+}
 });
 catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
 }
@@ -180,7 +197,7 @@ catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
 // Lancer le slider toutes les 3 secondes
 setInterval(showNextCatalogueSlide, 3000);
 
-// Galerie lightbox
+// ===== Galerie lightbox =====
 let currentIndex = 0;
 const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
@@ -262,6 +279,7 @@ console.log(cart);
 
 </body>
 </html>
+
 
 
 
