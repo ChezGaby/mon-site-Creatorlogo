@@ -1,19 +1,12 @@
+
+                
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <title>mon premier site</title>
 <style>
-.clignote {
-color: red; /* texte rouge */
-font-weight: bold; /* gras pour plus de visibilité */
-animation: clignoter 1s infinite; /* clignote toutes les 1 seconde */
-}
-body {
-text-align: center;
-font-family: Arial, sans-serif;
-background: #f9f9f9;
-}
+
 .clignote {
 color: red;
 font-weight: bold;
@@ -21,21 +14,39 @@ animation: clignoter 1s infinite;
 text-align: left;
 margin-left: 20px;
 }
+
+
 @keyframes clignoter {
 0% { opacity: 1; }
 50% { opacity: 0; }
 100% { opacity: 1; }
 }
-.catalogue {
+
+
+body {
+text-align: center;
+font-family: Arial, sans-serif;
+background: #f9f9f9;
+}
+
+
+.catalogue, #gallery img {
 max-width: 100%;
 height: auto;
 display: block;
 margin: 20px auto;
 cursor: pointer;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.catalogue:hover, #gallery img:hover {
+transform: scale(1.05);
+box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+
 #gallery {
-display: none; 
+display: none;
 position: fixed;
 top: 0;
 left: 0;
@@ -58,6 +69,12 @@ margin: 5px;
 padding: 10px 15px;
 font-size: 16px;
 cursor: pointer;
+transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#gallery button:hover {
+background: #ffcccc;
+transform: scale(1.05);
 }
 
 #gallery span {
@@ -80,45 +97,38 @@ margin-top: 50px;
 <p class="clignote">Cliquez ici 👇 </p>
 
 
-<img src="CHEZGABYBIJOUx.png" alt="Catalogue" class="catalogue" onclick="openGallery()">
-
-
-<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
-<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
-<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
+<img src="CHEZGABYBIJOUx.png" alt="Catalogue" class="catalogue" onclick="openGallery()" loading="lazy">
+<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
 
 <p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
 
-
+<!-- Galerie -->
 <div id="gallery">
 <h2>Galerie</h2>
 
-
-<img src="10.png" alt="10.png">
+<img src="10.png" alt="10.png" loading="lazy">
 <button onclick="like('10.png')">❤️ J'aime</button> <span id="10.png-count">0</span>
 <button onclick="addToCart('10.png')">🛒 Ajouter au panier</button>
 
-
-<img src="photo2.png" alt="Photo 2">
+<img src="photo2.png" alt="Photo 2" loading="lazy">
 <button onclick="like('photo2')">❤️ J'aime</button> <span id="photo2-count">0</span>
 <button onclick="addToCart('photo2')">🛒 Ajouter au panier</button>
 
-
-<img src="photo3.png" alt="Photo 3">
+<img src="photo3.png" alt="Photo 3" loading="lazy">
 <button onclick="like('photo3')">❤️ J'aime</button> <span id="photo3-count">0</span>
 <button onclick="addToCart('photo3')">🛒 Ajouter au panier</button>
 
-<img src="photo4.png" alt="Photo 4">
+<img src="photo4.png" alt="Photo 4" loading="lazy">
 <button onclick="like('photo4')">❤️ J'aime</button> <span id="photo4-count">0</span>
 <button onclick="addToCart('photo4')">🛒 Ajouter au panier</button>
 
-
-<img src="photo5.png" alt="Photo 5">
+<img src="photo5.png" alt="Photo 5" loading="lazy">
 <button onclick="like('photo5')">❤️ J'aime</button> <span id="photo5-count">0</span>
 <button onclick="addToCart('photo5')">🛒 Ajouter au panier</button>
 
-
-<img src="photo6.png" alt="Photo 6">
+<img src="photo6.png" alt="Photo 6" loading="lazy">
 <button onclick="like('photo6')">❤️ J'aime</button> <span id="photo6-count">0</span>
 <button onclick="addToCart('photo6')">🛒 Ajouter au panier</button>
 
@@ -126,14 +136,12 @@ margin-top: 50px;
 </div>
 
 <script>
-
 function openGallery() {
 document.getElementById("gallery").style.display = "block";
 }
 function closeGallery() {
 document.getElementById("gallery").style.display = "none";
 }
-
 
 let likes = {};
 function like(id) {
@@ -142,20 +150,16 @@ likes[id]++;
 document.getElementById(id + '-count').innerText = likes[id];
 }
 
-
 let cart = [];
 function addToCart(item) {
 cart.push(item);
 alert(item + ' ajouté au panier !');
-console.log(cart); // voir le contenu du panier dans la console
+console.log(cart);
 }
 </script>
 
 </body>
 </html>
-                
-
-
 
                                                 
 
