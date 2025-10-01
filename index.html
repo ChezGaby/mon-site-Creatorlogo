@@ -26,34 +26,19 @@ font-family: Arial, sans-serif;
 background: #f9f9f9;
 }
 
-/* Images catalogue */
+/* Catalogue avec hover */
 .catalogue {
 max-width: 100%;
 height: auto;
 display: block;
 margin: 20px auto;
 cursor: pointer;
+position: relative;
 transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .catalogue:hover {
 transform: scale(1.05);
 box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
-/* Mini slider page d'accueil */
-#homepage-slider {
-max-width: 600px;
-margin: 0 auto 20px auto;
-position: relative;
-overflow: hidden;
-}
-#homepage-slider img {
-width: 100%;
-display: none;
-transition: opacity 0.5s ease;
-}
-#homepage-slider img.active-slide {
-display: block;
 }
 
 /* Galerie lightbox */
@@ -134,15 +119,15 @@ margin-top: 20px;
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
 <p class="clignote">Cliquez ici 👇 </p>
 
-<!-- Mini slider page d'accueil -->
-<div id="homepage-slider">
-<img src="10.png" class="active-slide" loading="lazy">
-<img src="photo2.png" loading="lazy">
-<img src="photo3.png" loading="lazy">
+<!-- Catalogue avec slider automatique -->
+<div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
+<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy" style="width:100%;">
+<img src="CHEZ.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABBIJOUX.png" loading="lazy" style="width:100%; display:none;">
+<img src="CHEZGABYBI.png" loading="lazy" style="width:100%; display:none;">
 </div>
 
-<!-- Catalogue -->
-<img src="CHEZGABYBIJOUx.png" alt="Catalogue" class="catalogue" onclick="openGallery(0)" loading="lazy">
+<!-- Logos -->
 <img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
 <img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
 <img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
@@ -180,15 +165,19 @@ margin-top: 20px;
 </div>
 
 <script>
-// Slider accueil
-let sliderIndex = 0;
-const homepageSliderImages = document.querySelectorAll("#homepage-slider img");
+// Slider catalogue automatique
+let catalogueIndex = 0;
+const catalogueImages = document.querySelectorAll("#catalogue-slider img");
 
-function showNextSlide() {
-homepageSliderImages.forEach((img, i) => img.classList.toggle("active-slide", i === sliderIndex));
-sliderIndex = (sliderIndex + 1) % homepageSliderImages.length;
+function showNextCatalogueSlide() {
+catalogueImages.forEach((img, i) => {
+img.style.display = (i === catalogueIndex) ? "block" : "none";
+});
+catalogueIndex = (catalogueIndex + 1) % catalogueImages.length;
 }
-setInterval(showNextSlide, 3000);
+
+// Lancer le slider toutes les 3 secondes
+setInterval(showNextCatalogueSlide, 3000);
 
 // Galerie lightbox
 let currentIndex = 0;
@@ -196,6 +185,7 @@ const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
 let sliderInterval;
 
+// Ouvrir galerie
 function openGallery(index) {
 currentIndex = index;
 updateGallery();
@@ -203,17 +193,20 @@ document.getElementById("gallery").style.display = "block";
 startSlider();
 }
 
+// Fermer galerie
 function closeGallery() {
 document.getElementById("gallery").style.display = "none";
 stopSlider();
 }
 
+// Afficher image sélectionnée
 function showImage(index) {
 currentIndex = index;
 updateGallery();
 resetSlider();
 }
 
+// Mise à jour affichage images et miniatures
 function updateGallery() {
 mainImages.forEach((img, i) => {
 img.classList.toggle("active", i === currentIndex);
@@ -221,6 +214,7 @@ thumbs[i].classList.toggle("active-thumb", i === currentIndex);
 });
 }
 
+// Navigation
 function prevImage() {
 currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
 updateGallery();
@@ -233,8 +227,11 @@ updateGallery();
 resetSlider();
 }
 
+// Slider automatique galerie
 function startSlider() {
-sliderInterval = setInterval(() => { nextImage(); }, 3000);
+sliderInterval = setInterval(() => {
+nextImage();
+}, 3000);
 }
 
 function stopSlider() {
@@ -264,5 +261,6 @@ console.log(cart);
 
 </body>
 </html>
+
 
 
