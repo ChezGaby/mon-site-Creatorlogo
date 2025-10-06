@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +10,8 @@
 color: red;
 font-weight: bold;
 animation: clignoter 1s infinite;
-margin: 0;
+text-align: left;
+margin-left: 20px;
 }
 @keyframes clignoter {
 0% { opacity: 1; }
@@ -20,7 +22,7 @@ margin: 0;
 /* Texte doré scintillant */
 .dore {
 font-weight: bold;
-font-size: 25px; /* plus gros */
+font-size: 20px;
 background: linear-gradient(270deg, #FFD700, #FFA500, #FFD700, #FFF5BA);
 background-size: 400% 400%;
 -webkit-background-clip: text;
@@ -63,8 +65,8 @@ background: #f9f9f9;
 overflow-x: hidden;
 }
 
-/* Catalogue et images avec hover */
-.catalogue, .img-wrapper img {
+/* Catalogue avec hover */
+.catalogue {
 max-width: 100%;
 height: auto;
 display: block;
@@ -73,12 +75,12 @@ cursor: pointer;
 position: relative;
 transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.catalogue:hover, .img-wrapper img:hover {
+.catalogue:hover {
 transform: scale(1.05);
 box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-/* Slider du catalogue */
+/* Effet de fondu pour le slider du catalogue */
 #catalogue-slider img {
 position: absolute;
 top: 0;
@@ -88,16 +90,18 @@ height: auto;
 opacity: 0;
 transition: opacity 1s ease-in-out;
 }
+
 #catalogue-slider img.active-slide {
 opacity: 1;
 z-index: 1;
 }
 
-/* Galerie lightbox principale (slider) */
+/* Galerie lightbox */
 #gallery {
 display: none;
 position: fixed;
-top:0; left:0;
+top:0;
+left:0;
 width:100%;
 height:100%;
 background: rgba(0,0,0,0.9);
@@ -105,6 +109,7 @@ text-align: center;
 overflow: hidden;
 z-index: 1000;
 }
+
 #gallery img.main-img {
 max-width: 80%;
 max-height: 70%;
@@ -112,16 +117,19 @@ margin: 20px auto;
 display: none;
 transition: opacity 0.5s ease;
 }
+
 #gallery img.active {
 display: block;
 opacity: 1;
 }
+
 #gallery .thumbnails {
 display: flex;
 justify-content: center;
 margin-top: 15px;
 gap: 10px;
 }
+
 #gallery .thumbnails img {
 width: 80px;
 height: 80px;
@@ -131,11 +139,14 @@ opacity: 0.7;
 border: 2px solid transparent;
 transition: transform 0.3s, opacity 0.3s, border 0.3s;
 }
-#gallery .thumbnails img:hover, #gallery .thumbnails img.active-thumb {
+
+#gallery .thumbnails img:hover,
+#gallery .thumbnails img.active-thumb {
 transform: scale(1.1);
 opacity: 1;
 border: 2px solid red;
 }
+
 #gallery button, #gallery span {
 margin: 10px;
 padding: 10px 20px;
@@ -145,58 +156,16 @@ background: #fff;
 border: none;
 border-radius: 5px;
 }
+
 #gallery span {
 color: white;
 font-size: 24px;
 cursor: pointer;
 }
+
 #gallery h2 {
 color: white;
 margin-top: 20px;
-}
-
-/* Galeries individuelles pour chaque image */
-.gallery-inline {
-display:none;
-position: fixed;
-top:0; left:0;
-width:100%; height:100%;
-background: rgba(0,0,0,0.9);
-z-index: 1000;
-text-align:center;
-}
-.gallery-inline img.main-img {
-max-width: 80%;
-max-height: 70%;
-margin:20px auto;
-display:block;
-}
-.gallery-inline .thumbnails {
-display:flex;
-justify-content:center;
-gap:10px;
-margin-top:15px;
-}
-.gallery-inline .thumbnails img {
-width:80px;
-height:80px;
-cursor:pointer;
-opacity:0.7;
-border:2px solid transparent;
-transition: transform 0.3s, opacity 0.3s, border 0.3s;
-}
-.gallery-inline .thumbnails img:hover, .gallery-inline .thumbnails img.active-thumb {
-transform: scale(1.1);
-opacity: 1;
-border: 2px solid red;
-}
-.gallery-inline span.close-btn {
-position:absolute;
-top:10px;
-right:10px;
-color:white;
-font-size:24px;
-cursor:pointer;
 }
 </style>
 </head>
@@ -209,7 +178,9 @@ cursor:pointer;
 <p class="dore">Bijoux acier inoxydable ✨</p>
 </div>
 
-<!-- Slider principal -->
+<p class="clignote">Cliquez ici 👇 </p>
+
+<!-- Catalogue avec slider automatique et fondu -->
 <div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
 <img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
 <img src="CHEZ.png" loading="lazy">
@@ -217,73 +188,60 @@ cursor:pointer;
 <img src="CHEZGABYBI.png" loading="lazy">
 </div>
 
-<!-- Images individuelles avec galerie -->
-<div class="img-wrapper">
-<img src="CHEZ.png" onclick="openGalleryInline('galleryCHEZ')">
-<p class="clignote" style="position:absolute; top:5px; left:5px;">Cliquez ici 👇</p>
-</div>
-<div class="img-wrapper">
-<img src="CHEZGABBIJOUX.png" onclick="openGalleryInline('galleryCHEZGABBIJOUX')">
-<p class="clignote" style="position:absolute; top:5px; left:5px;">Cliquez ici 👇</p>
-</div>
-<div class="img-wrapper">
-<img src="CHEZGABYBI.png" onclick="openGalleryInline('galleryCHEZGABYBI')">
-<p class="clignote" style="position:absolute; top:5px; left:5px;">Cliquez ici 👇</p>
-</div>
-<div class="img-wrapper">
-<img src="bracelet.png" onclick="openGalleryInline('galleryBRACELET')">
-<p class="clignote" style="position:absolute; top:5px; left:5px;">Cliquez ici 👇</p>
+<!-- Logos -->
+<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<img src="bracelet.png" alt="logo bracelet" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+
+<p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
+
+<!-- Galerie lightbox -->
+<div id="gallery">
+<h2>Galerie</h2>
+
+<!-- Images principales -->
+<img src="10.png" alt="10.png" class="main-img" loading="lazy">
+<img src="dimond.png" alt="Photo 2" class="main-img" loading="lazy">
+<img src="bouclé.png" alt="Photo 4" class="main-img" loading="lazy">
+<img src="ceinturclose.png" alt="Photo 5" class="main-img" loading="lazy">
+<img src="double.png" alt="Photo 6" class="main-img" loading="lazy">
+
+<!-- Miniatures -->
+<div class="thumbnails">
+<img src="10.png" onclick="showImage(0)" loading="lazy">
+<img src="dimond.png" onclick="showImage(1)" loading="lazy">
+<img src="bouclé.png" onclick="showImage(3)" loading="lazy">
+<img src="ceinturclose.png" onclick="showImage(4)" loading="lazy">
+<img src="double.png" onclick="showImage(5)" loading="lazy">
+
 </div>
 
-<!-- Galeries individuelles -->
-<div id="galleryCHEZ" class="gallery-inline">
-<h2 style="color:white; margin-top:20px;">Galerie CHEZ</h2>
-<img src="image1.png" class="main-img">
-<img src="image2.png" class="main-img" style="display:none;">
-<div class="thumbnails">
-<img src="image1.png" onclick="showInline('galleryCHEZ',0)">
-<img src="image2.png" onclick="showInline('galleryCHEZ',1)">
+<!-- Contrôles -->
+<div>
+<button onclick="prevImage()">⬅ Précédent</button>
+<button onclick="nextImage()">Suivant ➡</button>
+<span onclick="closeGallery()">Fermer ✖</span>
 </div>
-<span class="close-btn" onclick="closeGalleryInline('galleryCHEZ')">✖</span>
-</div>
-
-<div id="galleryCHEZGABBIJOUX" class="gallery-inline">
-<h2 style="color:white; margin-top:20px;">Galerie CHEZGABBIJOUX</h2>
-<img src="image1.png" class="main-img">
-<img src="image2.png" class="main-img" style="display:none;">
-<div class="thumbnails">
-<img src="image1.png" onclick="showInline('galleryCHEZGABBIJOUX',0)">
-<img src="image2.png" onclick="showInline('galleryCHEZGABBIJOUX',1)">
-</div>
-<span class="close-btn" onclick="closeGalleryInline('galleryCHEZGABBIJOUX')">✖</span>
-</div>
-
-<div id="galleryCHEZGABYBI" class="gallery-inline">
-<h2 style="color:white; margin-top:20px;">Galerie CHEZGABYBI</h2>
-<img src="image1.png" class="main-img">
-<img src="image2.png" class="main-img" style="display:none;">
-<div class="thumbnails">
-<img src="image1.png" onclick="showInline('galleryCHEZGABYBI',0)">
-<img src="image2.png" onclick="showInline('galleryCHEZGABYBI',1)">
-</div>
-<span class="close-btn" onclick="closeGalleryInline('galleryCHEZGABYBI')">✖</span>
-</div>
-
-<div id="galleryBRACELET" class="gallery-inline">
-<h2 style="color:white; margin-top:20px;">Galerie Bracelet</h2>
-<img src="image1.png" class="main-img">
-<img src="image2.png" class="main-img" style="display:none;">
-<div class="thumbnails">
-<img src="image1.png" onclick="showInline('galleryBRACELET',0)">
-<img src="image2.png" onclick="showInline('galleryBRACELET',1)">
-</div>
-<span class="close-btn" onclick="closeGalleryInline('galleryBRACELET')">✖</span>
 </div>
 
 <script>
-// Slider principal
+// Générer des paillettes qui tombent
+const container = document.querySelector('.paillettes-container');
+for (let i = 0; i < 20; i++) {
+let sparkle = document.createElement('div');
+sparkle.classList.add('sparkle');
+sparkle.style.left = Math.random() * 100 + '%';
+sparkle.style.animationDuration = (2 + Math.random() * 3) + 's';
+sparkle.style.animationDelay = Math.random() * 5 + 's';
+container.appendChild(sparkle);
+}
+
+// Slider catalogue automatique avec fondu
 let catalogueIndex = 0;
 const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
+
+catalogueSlides.forEach((img, i) => img.classList.remove("active-slide"));
 catalogueSlides[catalogueIndex].classList.add("active-slide");
 
 function showNextCatalogueSlide() {
@@ -293,19 +251,70 @@ catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
 }
 setInterval(showNextCatalogueSlide, 3000);
 
-// Galeries individuelles
-function openGalleryInline(id) {
-document.getElementById(id).style.display = "block";
-showInline(id,0);
+// Galerie lightbox
+let currentIndex = 0;
+const mainImages = document.querySelectorAll("#gallery .main-img");
+const thumbs = document.querySelectorAll("#gallery .thumbnails img");
+let sliderInterval;
+
+function openGallery(index) {
+currentIndex = index;
+updateGallery();
+document.getElementById("gallery").style.display = "block";
+startSlider();
 }
-function closeGalleryInline(id) {
-document.getElementById(id).style.display = "none";
+function closeGallery() {
+document.getElementById("gallery").style.display = "none";
+stopSlider();
 }
-function showInline(id,index) {
-const gallery = document.getElementById(id);
-const imgs = gallery.querySelectorAll('.main-img');
-imgs.forEach((img,i)=>{ img.style.display = (i===index) ? "block" : "none"; });
+function showImage(index) {
+currentIndex = index;
+updateGallery();
+resetSlider();
+}
+function updateGallery() {
+mainImages.forEach((img, i) => {
+img.classList.toggle("active", i === currentIndex);
+thumbs[i].classList.toggle("active-thumb", i === currentIndex);
+});
+}
+function prevImage() {
+currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
+updateGallery();
+resetSlider();
+}
+function nextImage() {
+currentIndex = (currentIndex + 1) % mainImages.length;
+updateGallery();
+resetSlider();
+}
+function startSlider() {
+sliderInterval = setInterval(() => {
+nextImage();
+}, 3000);
+}
+function stopSlider() {
+clearInterval(sliderInterval);
+}
+function resetSlider() {
+stopSlider();
+startSlider();
+}
+
+// Likes et panier
+let likes = {};
+function like(id) {
+if(!likes[id]) likes[id] = 0;
+likes[id]++;
+document.getElementById(id + "-count").innerText = likes[id];
+}
+let cart = [];
+function addToCart(item) {
+cart.push(item);
+alert(item + " ajouté au panier !");
+console.log(cart);
 }
 </script>
+
 </body>
 </html>
