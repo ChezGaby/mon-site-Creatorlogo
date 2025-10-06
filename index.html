@@ -19,11 +19,50 @@ margin-left: 20px;
 100% { opacity: 1; }
 }
 
+/* Texte doré scintillant */
+.dore {
+font-weight: bold;
+font-size: 20px;
+background: linear-gradient(270deg, #FFD700, #FFA500, #FFD700, #FFF5BA);
+background-size: 400% 400%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: paillettes 5s ease infinite, clignoter 2s infinite;
+margin-top: -10px;
+position: relative;
+z-index: 2;
+}
+@keyframes paillettes {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+/* Conteneur paillettes */
+.paillettes-container {
+position: relative;
+display: inline-block;
+}
+.paillettes-container .sparkle {
+position: absolute;
+width: 6px;
+height: 6px;
+background: radial-gradient(circle, #fff 0%, #FFD700 60%, transparent 100%);
+border-radius: 50%;
+animation: sparkleFall 5s linear infinite;
+opacity: 0.8;
+}
+@keyframes sparkleFall {
+from { transform: translateY(-20px) scale(0.5); opacity: 1; }
+to { transform: translateY(60px) scale(0); opacity: 0; }
+}
+
 /* Style global */
 body {
 text-align: center;
 font-family: Arial, sans-serif;
 background: #f9f9f9;
+overflow-x: hidden;
 }
 
 /* Catalogue avec hover */
@@ -133,6 +172,12 @@ margin-top: 20px;
 <body>
 
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
+
+<!-- Texte doré + paillettes -->
+<div class="paillettes-container">
+<p class="dore">Bijoux acier inoxydable de couleur doré ✨</p>
+</div>
+
 <p class="clignote">Cliquez ici 👇 </p>
 
 <!-- Catalogue avec slider automatique et fondu -->
@@ -181,24 +226,29 @@ margin-top: 20px;
 </div>
 
 <script>
+// Générer des paillettes qui tombent
+const container = document.querySelector('.paillettes-container');
+for (let i = 0; i < 20; i++) {
+let sparkle = document.createElement('div');
+sparkle.classList.add('sparkle');
+sparkle.style.left = Math.random() * 100 + '%';
+sparkle.style.animationDuration = (2 + Math.random() * 3) + 's';
+sparkle.style.animationDelay = Math.random() * 5 + 's';
+container.appendChild(sparkle);
+}
+
 // Slider catalogue automatique avec fondu
 let catalogueIndex = 0;
 const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
 
-// Affiche la première image au départ
 catalogueSlides.forEach((img, i) => img.classList.remove("active-slide"));
 catalogueSlides[catalogueIndex].classList.add("active-slide");
 
 function showNextCatalogueSlide() {
-// Supprime active-slide de toutes les images
 catalogueSlides.forEach((img) => img.classList.remove("active-slide"));
-// Ajoute active-slide à l'image courante
 catalogueSlides[catalogueIndex].classList.add("active-slide");
-// Passe à la suivante
 catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
 }
-
-// Lancer le slider toutes les 3 secondes
 setInterval(showNextCatalogueSlide, 3000);
 
 // Galerie lightbox
@@ -207,59 +257,45 @@ const mainImages = document.querySelectorAll("#gallery .main-img");
 const thumbs = document.querySelectorAll("#gallery .thumbnails img");
 let sliderInterval;
 
-// Ouvrir galerie
 function openGallery(index) {
 currentIndex = index;
 updateGallery();
 document.getElementById("gallery").style.display = "block";
 startSlider();
 }
-
-// Fermer galerie
 function closeGallery() {
 document.getElementById("gallery").style.display = "none";
 stopSlider();
 }
-
-// Afficher image sélectionnée
 function showImage(index) {
 currentIndex = index;
 updateGallery();
 resetSlider();
 }
-
-// Mise à jour affichage images et miniatures
 function updateGallery() {
 mainImages.forEach((img, i) => {
 img.classList.toggle("active", i === currentIndex);
 thumbs[i].classList.toggle("active-thumb", i === currentIndex);
 });
 }
-
-// Navigation
 function prevImage() {
 currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
 updateGallery();
 resetSlider();
 }
-
 function nextImage() {
 currentIndex = (currentIndex + 1) % mainImages.length;
 updateGallery();
 resetSlider();
 }
-
-// Slider automatique galerie
 function startSlider() {
 sliderInterval = setInterval(() => {
 nextImage();
 }, 3000);
 }
-
 function stopSlider() {
 clearInterval(sliderInterval);
 }
-
 function resetSlider() {
 stopSlider();
 startSlider();
@@ -272,7 +308,6 @@ if(!likes[id]) likes[id] = 0;
 likes[id]++;
 document.getElementById(id + "-count").innerText = likes[id];
 }
-
 let cart = [];
 function addToCart(item) {
 cart.push(item);
