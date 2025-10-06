@@ -3,31 +3,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>mon premier site</title>
+<title>Mon premier site</title>
 <style>
-/* Texte clignotant */
-.clignote {
-color: red;
-font-weight: bold;
-animation: clignoter 1s infinite;
-text-align: left;
-margin-left: 20px;
-}
-@keyframes clignoter {
-0% { opacity: 1; }
-50% { opacity: 0; }
-100% { opacity: 1; }
-}
-
 /* Texte doré scintillant */
 .dore {
 font-weight: bold;
-font-size: 20px;
+font-size: 28px;
 background: linear-gradient(270deg, #FFD700, #FFA500, #FFD700, #FFF5BA);
 background-size: 400% 400%;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-animation: paillettes 5s ease infinite, clignoter 2s infinite;
+animation: paillettes 5s ease infinite;
 margin-top: -10px;
 position: relative;
 z-index: 2;
@@ -65,39 +51,20 @@ background: #f9f9f9;
 overflow-x: hidden;
 }
 
-/* Catalogue avec hover */
-.catalogue {
+/* Images du catalogue */
+.catalogue img {
 max-width: 100%;
 height: auto;
-display: block;
 margin: 20px auto;
 cursor: pointer;
-position: relative;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
+transition: transform 0.3s ease;
 }
-.catalogue:hover {
+.catalogue img:hover {
 transform: scale(1.05);
-box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
-/* Effet de fondu pour le slider du catalogue */
-#catalogue-slider img {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: auto;
-opacity: 0;
-transition: opacity 1s ease-in-out;
-}
-
-#catalogue-slider img.active-slide {
-opacity: 1;
-z-index: 1;
 }
 
 /* Galerie lightbox */
-#gallery {
+.gallery-container {
 display: none;
 position: fixed;
 top:0;
@@ -109,28 +76,24 @@ text-align: center;
 overflow: hidden;
 z-index: 1000;
 }
-
-#gallery img.main-img {
+.gallery-container img.main-img {
 max-width: 80%;
 max-height: 70%;
 margin: 20px auto;
 display: none;
 transition: opacity 0.5s ease;
 }
-
-#gallery img.active {
+.gallery-container img.active {
 display: block;
 opacity: 1;
 }
-
-#gallery .thumbnails {
+.gallery-container .thumbnails {
 display: flex;
 justify-content: center;
 margin-top: 15px;
 gap: 10px;
 }
-
-#gallery .thumbnails img {
+.gallery-container .thumbnails img {
 width: 80px;
 height: 80px;
 object-fit: cover;
@@ -139,15 +102,13 @@ opacity: 0.7;
 border: 2px solid transparent;
 transition: transform 0.3s, opacity 0.3s, border 0.3s;
 }
-
-#gallery .thumbnails img:hover,
-#gallery .thumbnails img.active-thumb {
+.gallery-container .thumbnails img:hover,
+.gallery-container .thumbnails img.active-thumb {
 transform: scale(1.1);
 opacity: 1;
 border: 2px solid red;
 }
-
-#gallery button, #gallery span {
+.gallery-container button, .gallery-container span {
 margin: 10px;
 padding: 10px 20px;
 font-size: 18px;
@@ -156,14 +117,12 @@ background: #fff;
 border: none;
 border-radius: 5px;
 }
-
-#gallery span {
+.gallery-container span {
 color: white;
 font-size: 24px;
 cursor: pointer;
 }
-
-#gallery h2 {
+.gallery-container h2 {
 color: white;
 margin-top: 20px;
 }
@@ -173,60 +132,119 @@ margin-top: 20px;
 
 <h1 style="color: red;">LIVRAISON OFFERTE DÈS 20 € !</h1>
 
-<!-- Texte doré + paillettes -->
 <div class="paillettes-container">
 <p class="dore">Bijoux acier inoxydable ✨</p>
 </div>
 
-<p class="clignote">Cliquez ici 👇 </p>
-
-<!-- Catalogue avec slider automatique et fondu -->
-<div id="catalogue-slider" class="catalogue" onclick="openGallery(0)">
-<img src="CHEZGABYBIJOUx.png" class="active-slide" loading="lazy">
-<img src="CHEZ.png" loading="lazy">
-<img src="CHEZGABBIJOUX.png" loading="lazy">
-<img src="CHEZGABYBI.png" loading="lazy">
+<!-- Catalogue images -->
+<div class="catalogue">
+<img src="CHEZGABYBIJOUx.png" onclick="openGallery('gallery1')">
+<img src="CHEZ.png" onclick="openGallery('gallery2')">
+<img src="CHEZGABBIJOUX.png" onclick="openGallery('gallery3')">
+<img src="CHEZGABYBI.png" onclick="openGallery('gallery4')">
 </div>
 
-<!-- Logos -->
-<img src="CHEZ.png" alt="logo CHEZ" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABBIJOUX.png" alt="logo CHEZGAB" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="CHEZGABYBI.png" alt="logo CHEZGABYBI" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
-<img src="bracelet.png" alt="logo bracelet" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;" loading="lazy">
+<!-- Logos ou autres images -->
+<img src="bracelet.png" style="max-width:100%; height:auto; display:block; margin:0 auto 20px auto;">
 
-<p style="color: blue;">catalogue bijoux acier inoxydable 974</p>
-
-<!-- Galerie lightbox -->
-<div id="gallery">
-<h2>Galerie</h2>
-
-<!-- Images principales -->
-<img src="10.png" alt="10.png" class="main-img" loading="lazy">
-<img src="dimond.png" alt="Photo 2" class="main-img" loading="lazy">
-<img src="bouclé.png" alt="Photo 4" class="main-img" loading="lazy">
-<img src="ceinturclose.png" alt="Photo 5" class="main-img" loading="lazy">
-<img src="double.png" alt="Photo 6" class="main-img" loading="lazy">
-
-<!-- Miniatures -->
+<!-- Galeries séparées -->
+<div id="gallery1" class="gallery-container">
+<h2>Galerie CHEZGABYBIJOUx</h2>
+<img src="10.png" class="main-img">
+<img src="dimond.png" class="main-img">
 <div class="thumbnails">
-<img src="10.png" onclick="showImage(0)" loading="lazy">
-<img src="dimond.png" onclick="showImage(1)" loading="lazy">
-<img src="bouclé.png" onclick="showImage(3)" loading="lazy">
-<img src="ceinturclose.png" onclick="showImage(4)" loading="lazy">
-<img src="double.png" onclick="showImage(5)" loading="lazy">
-
+<img src="10.png" onclick="showImage('gallery1',0)">
+<img src="dimond.png" onclick="showImage('gallery1',1)">
+</div>
+<button onclick="prevImage('gallery1')">⬅ Précédent</button>
+<button onclick="nextImage('gallery1')">Suivant ➡</button>
+<span onclick="closeGallery('gallery1')">Fermer ✖</span>
 </div>
 
-<!-- Contrôles -->
-<div>
-<button onclick="prevImage()">⬅ Précédent</button>
-<button onclick="nextImage()">Suivant ➡</button>
-<span onclick="closeGallery()">Fermer ✖</span>
+<div id="gallery2" class="gallery-container">
+<h2>Galerie CHEZ</h2>
+<img src="imageA.png" class="main-img">
+<img src="imageB.png" class="main-img">
+<div class="thumbnails">
+<img src="imageA.png" onclick="showImage('gallery2',0)">
+<img src="imageB.png" onclick="showImage('gallery2',1)">
 </div>
+<button onclick="prevImage('gallery2')">⬅ Précédent</button>
+<button onclick="nextImage('gallery2')">Suivant ➡</button>
+<span onclick="closeGallery('gallery2')">Fermer ✖</span>
+</div>
+
+<div id="gallery3" class="gallery-container">
+<h2>Galerie CHEZGABBIJOUX</h2>
+<!-- Ajoute tes images ici -->
+</div>
+
+<div id="gallery4" class="gallery-container">
+<h2>Galerie CHEZGABYBI</h2>
+<!-- Ajoute tes images ici -->
 </div>
 
 <script>
-// Générer des paillettes qui tombent
+let currentGallery = null;
+let currentIndex = 0;
+let sliderInterval;
+
+function openGallery(id) {
+currentGallery = id;
+currentIndex = 0;
+updateGallery(id);
+document.getElementById(id).style.display = "block";
+startSlider(id);
+}
+
+function closeGallery(id) {
+document.getElementById(id).style.display = "none";
+stopSlider();
+}
+
+function showImage(id, index) {
+currentGallery = id;
+currentIndex = index;
+updateGallery(id);
+resetSlider(id);
+}
+
+function updateGallery(id) {
+const gallery = document.getElementById(id);
+const mainImages = gallery.querySelectorAll('.main-img');
+const thumbs = gallery.querySelectorAll('.thumbnails img');
+mainImages.forEach((img,i) => img.classList.toggle('active', i === currentIndex));
+thumbs.forEach((thumb,i) => thumb.classList.toggle('active-thumb', i === currentIndex));
+}
+
+function startSlider(id) {
+sliderInterval = setInterval(() => { nextImage(id); }, 3000);
+}
+
+function stopSlider() {
+clearInterval(sliderInterval);
+}
+
+function resetSlider(id) {
+stopSlider();
+startSlider(id);
+}
+
+function nextImage(id) {
+const gallery = document.getElementById(id);
+const mainImages = gallery.querySelectorAll('.main-img');
+currentIndex = (currentIndex + 1) % mainImages.length;
+updateGallery(id);
+}
+
+function prevImage(id) {
+const gallery = document.getElementById(id);
+const mainImages = gallery.querySelectorAll('.main-img');
+currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
+updateGallery(id);
+}
+
+// Générer des paillettes
 const container = document.querySelector('.paillettes-container');
 for (let i = 0; i < 20; i++) {
 let sparkle = document.createElement('div');
@@ -236,85 +254,6 @@ sparkle.style.animationDuration = (2 + Math.random() * 3) + 's';
 sparkle.style.animationDelay = Math.random() * 5 + 's';
 container.appendChild(sparkle);
 }
-
-// Slider catalogue automatique avec fondu
-let catalogueIndex = 0;
-const catalogueSlides = document.querySelectorAll("#catalogue-slider img");
-
-catalogueSlides.forEach((img, i) => img.classList.remove("active-slide"));
-catalogueSlides[catalogueIndex].classList.add("active-slide");
-
-function showNextCatalogueSlide() {
-catalogueSlides.forEach((img) => img.classList.remove("active-slide"));
-catalogueSlides[catalogueIndex].classList.add("active-slide");
-catalogueIndex = (catalogueIndex + 1) % catalogueSlides.length;
-}
-setInterval(showNextCatalogueSlide, 3000);
-
-// Galerie lightbox
-let currentIndex = 0;
-const mainImages = document.querySelectorAll("#gallery .main-img");
-const thumbs = document.querySelectorAll("#gallery .thumbnails img");
-let sliderInterval;
-
-function openGallery(index) {
-currentIndex = index;
-updateGallery();
-document.getElementById("gallery").style.display = "block";
-startSlider();
-}
-function closeGallery() {
-document.getElementById("gallery").style.display = "none";
-stopSlider();
-}
-function showImage(index) {
-currentIndex = index;
-updateGallery();
-resetSlider();
-}
-function updateGallery() {
-mainImages.forEach((img, i) => {
-img.classList.toggle("active", i === currentIndex);
-thumbs[i].classList.toggle("active-thumb", i === currentIndex);
-});
-}
-function prevImage() {
-currentIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
-updateGallery();
-resetSlider();
-}
-function nextImage() {
-currentIndex = (currentIndex + 1) % mainImages.length;
-updateGallery();
-resetSlider();
-}
-function startSlider() {
-sliderInterval = setInterval(() => {
-nextImage();
-}, 3000);
-}
-function stopSlider() {
-clearInterval(sliderInterval);
-}
-function resetSlider() {
-stopSlider();
-startSlider();
-}
-
-// Likes et panier
-let likes = {};
-function like(id) {
-if(!likes[id]) likes[id] = 0;
-likes[id]++;
-document.getElementById(id + "-count").innerText = likes[id];
-}
-let cart = [];
-function addToCart(item) {
-cart.push(item);
-alert(item + " ajouté au panier !");
-console.log(cart);
-}
 </script>
-
 </body>
 </html>
